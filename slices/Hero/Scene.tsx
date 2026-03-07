@@ -2,20 +2,8 @@
 import { Keyboard } from "@/components/Keyboard";
 import { Keycap } from "@/components/Keycap";
 import { Environment, PerspectiveCamera } from "@react-three/drei";
-import { useControls } from "leva";
-import React from "react";
 
 const Scene = () => {
-  const { positionX, positionY, positionZ, rotationX, rotationY, rotationZ } =
-    useControls({
-      positionX: 0.2,
-      positionY: -0.5,
-      positionZ: 1.9,
-      rotationX: 1.6,
-      rotationY: 0.4,
-      rotationZ: -0.1,
-    });
-
   const scalingFactor = window.innerWidth <= 500 ? 0.5 : 1;
   return (
     <group>
