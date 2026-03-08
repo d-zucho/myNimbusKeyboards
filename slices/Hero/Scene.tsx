@@ -70,6 +70,8 @@ function CameraController() {
 
 const Scene = () => {
   const keyboardGroupRef = useRef<THREE.Group>(null);
+  const keycapRef = useRef<THREE.Group>(null);
+
   const [lightIntensityScaler, setLightIntensityScaler] = useState(0);
 
   const scalingFactor = window.innerWidth <= 500 ? 0.5 : 1;
@@ -133,7 +135,43 @@ const Scene = () => {
             duration: 2,
           },
           "<",
-        );
+        )
+        .call(() => {
+          const keycaps = keycapRef.current;
+          // scroll timeline
+          if (!keyboard || !keycaps) return;
+
+          const scrollTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".hero",
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1,
+            },
+          });
+
+          scrollTimeline
+            .to(keyboard.position, {
+              x: 0,
+              y: -0.5,
+              z: 2.2,
+            })
+            .to(
+              keyboard.rotation,
+              {
+                x: Math.PI * -2 + 0.8,
+                y: 0,
+                z: 0,
+              },
+              "<",
+            )
+            .to(keycaps.scale, {
+              x: 5,
+              y: 5,
+              z: 5,
+              duration: 3,
+            });
+        });
     });
   });
   return (
@@ -148,7 +186,7 @@ const Scene = () => {
 
         {/* <pointLight position={[0, 1, 3]} /> */}
 
-        <group>
+        <group ref={keycapRef}>
           <Keycap position={[0, -0.4, 2.6]} rotation={[0, 2, 3]} texture={0} />
           <Keycap position={[-1.4, 0, 2.3]} rotation={[3, 2, 1]} texture={1} />
           <Keycap position={[-1.8, 1, 1.5]} rotation={[0, 1, 3]} texture={2} />
