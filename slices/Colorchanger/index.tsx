@@ -64,11 +64,11 @@ const Colorchanger: FC<ColorchangerProps> = ({ slice }) => {
 
   function handleTextureSelect(texture: KeycapTexture) {
     if (texture.id === selectedTextureId || isAnimating) return;
-
-    setSelectedTextureId(texture.id);
+    setIsAnimating(true);
     setBackgroundText(
       () => KEYCAP_TEXTURES.find((t) => t.id === texture.id)?.name || "",
     );
+    setSelectedTextureId(texture.id);
   }
 
   const handleAnimationComplete = useCallback(() => {
@@ -130,6 +130,7 @@ const Colorchanger: FC<ColorchangerProps> = ({ slice }) => {
             <li key={texture.id}>
               <button
                 onClick={() => handleTextureSelect(texture)}
+                disabled={isAnimating}
                 className={clsx(
                   "flex aspect-square flex-col items-center justify-center rounded-lg border-2 p-4 hover:scale-105 motion-safe:transition-all motion-safe:duration-300",
                   selectedTextureId === texture.id
